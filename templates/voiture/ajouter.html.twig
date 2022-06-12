@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Ajouter un véhicule
+{% endblock %}
+
+{% block body %}
+	<h1>Nouveau véhicule</h1>
+
+	{{ form_start(formView) }}
+
+	{{ form_errors(formView) }}
+
+	<div class="row">
+		<div class="col">
+			{{ form_row(formView.model) }}
+			{{ form_row(formView.immatriculation) }}
+			{{ form_row(formView.carburant) }}
+			{{ form_row(formView.capaciteHabitacle) }}
+		</div>
+		<div class="col">
+			{{ form_row(formView.boitier) }}
+			{{ form_row(formView.prix) }}
+			{{ form_row(formView.image) }}
+			{{ form_row(formView.parking) }}
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-outline-primary mt-4">
+		<i class="fas fa-save"></i>
+		Ajouter le véhicule
+	</button>
+
+	{{ form_end(formView) }}
+{% endblock %}

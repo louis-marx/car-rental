@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parking.ville }}
+{% endblock %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('homepage') }}">Acceuil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('parking_list') }}">Parkings</a>
+		</li>
+		<li class="breadcrumb-item active">{{ parking.ville }}</li>
+	</ol>
+	<h1>Parking de
+		{{ parking.ville }}
+	</h1>
+	<div class="d-flex justify-content-between align-items-center">
+		<img src="{{ parking.image }}" alt="Image du parking" class="img-fluid">
+		<ul class="list-group w-50">
+			<li class="list-group-item d-flex align-items-center bg-secondary">
+				{{ parking.adresse }},
+				{{ parking.codePostal }}
+				{{ parking.ville }}
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Capacité :
+				<span class="badge bg-warning rounded-pill">{{parking.capacite}}</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Nombre de véhicules disponibles :
+				<span class="badge bg-success rounded-pill">{{parking.voitures|length}}</span>
+			</li>
+		</ul>
+	</div>
+	<hr>
+	<h2>Nos véhicules disponibles</h2>
+	<div class="row">
+		{% for v in parking.voitures %}
+			<div class="col-3">
+				{% include "voiture/_voiture_card.html.twig" %}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

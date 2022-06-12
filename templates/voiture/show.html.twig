@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{ voiture.model }}
+{% endblock %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('homepage') }}">Acceuil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('voiture_list') }}">Voitures</a>
+		</li>
+		<li class="breadcrumb-item active">{{ voiture.model }}</li>
+	</ol>
+	<h1>{{ voiture.model }}</h1>
+	<div class="d-flex justify-content-between align-items-center">
+		<img src="{{ voiture.image }}" alt="Image du véhicule" class="img-fluid">
+		<ul class="list-group w-50">
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Sièges :
+				<span class="badge bg-primary">{{voiture.capaciteHabitacle}}
+					passagers</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Carburant :
+				<span class="badge bg-warning">{{voiture.carburant}}</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Boite de vitesse :
+				<span class="badge bg-info">{{voiture.boitier}}</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Immatriculation :
+				<span class="badge bg-success">{{voiture.immatriculation}}</span>
+			</li>
+		</ul>
+	</div>
+	<div class="card bg-light mt-5">
+		<div class="card-body d-flex justify-content-between align-items-center">
+			<div>Véhicule disponible au parking de
+				<span class="badge rounded-pill bg-primary">{{ voiture.parking.ville }}</span>
+				pour
+				<span class="badge rounded-pill bg-warning">{{ voiture.prix / 100}}
+					€ / jours</span>
+			</div>
+			<button type="button" class="btn btn-outline-success">Réservez ce véhicule</button>
+		</div>
+
+	{% endblock %}

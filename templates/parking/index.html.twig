@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parkings
+{% endblock %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('homepage') }}">Acceuil</a>
+		</li>
+		<li class="breadcrumb-item active">Parkings</li>
+	</ol>
+	<h1>Nos parkings</h1>
+	<ul class="list-group">
+		<li class="list-group-item d-flex justify-content-between align-items-center text-white bg-secondary">
+			<h4>Ville</h4>
+			<h4>
+				Véhicules disponibles
+			</h4>
+		</li>
+		{% for p in parkings %}
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				{{ p.ville }}
+				<div>
+					<span class="badge bg-success rounded-pill">
+						{{ p.voitures|length }}
+					</span>
+					<a href="{{ path('parking_show', {'slug': p.slug }) }}" class="btn btn-outline-light btn-sm">
+						<i class="fa-solid fa-chevron-right text-success fa-xl"></i>
+					</a>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

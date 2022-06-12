@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voitures
+{% endblock %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('homepage') }}">Acceuil</a>
+		</li>
+		<li class="breadcrumb-item active">Voitures</li>
+	</ol>
+	<h1>Nos voitures</h1>
+	<ul class="list-group">
+		<li class="list-group-item d-flex justify-content-between align-items-center text-white bg-secondary">
+			<h4>Modèle</h4>
+			<h4>
+				Parking
+			</h4>
+		</li>
+		{% for v in voitures %}
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				<div>{{ v.model }}
+					{% if v.carburant == "electric" or v.carburant == "hybrid" %}
+						<i class="fa-solid fa-car-battery"></i>
+					{% else %}
+						<i class="fa-solid fa-gas-pump"></i>
+					{% endif %}
+				</div>
+				<div>
+					<span class="badge bg-primary rounded-pill">
+						{{ v.parking.ville }}
+					</span>
+					<a href="{{ path('voiture_show', {'slug': v.slug }) }}" class="btn btn-outline-light btn-sm">
+						<i class="fa-solid fa-chevron-right text-primary fa-xl"></i>
+					</a>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

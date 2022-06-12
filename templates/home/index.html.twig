@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item active">Acceuil</li>
+	</ol>
+	<h1>Les véhicules qui pourraient vous plaire</h1>
+	<div class="row">
+		{% for v in voitures %}
+			<div class="col">
+				{% include "voiture/_voiture_card.html.twig" %}
+			</div>
+		{% endfor %}
+	</div>
+	<div class="d-flex justify-content-center">
+		<a href="{{ path('voiture_list') }}">
+			<button type="button" class="btn btn-outline-secondary">Consulter la liste de tous nos véhicules
+				<i class="fa-solid fa-chevron-right"></i>
+			</button>
+		</a>
+	</div>
+	<hr>
+	<h1>Les parkings les plus proches de chez vous</h1>
+	<div class="row">
+		{% for p in parkings %}
+			<div class="col">
+				{% include "parking/_parking_card.html.twig" %}
+			</div>
+		{% endfor %}
+	</div>
+	<div class="d-flex justify-content-center">
+		<a href="{{ path('parking_list') }}">
+			<button type="button" class="btn btn-outline-secondary">Consulter la liste de tous nos parkings
+				<i class="fa-solid fa-chevron-right"></i>
+			</button>
+		</a>
+	</div>
+	<hr>
+	<h2>Un service irreprochable</h2>
+	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem culpa dolores repellat earum dicta blanditiis.</p>
+	<div class="row">
+		{% include "shared/_assurance.html.twig" with {
+            'color': 'primary',
+            'icone': 'fas fa-truck',
+            'text': 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus officiis tempora totam tenetur veritatis eos?'
+        } %}
+		{% include "shared/_assurance.html.twig" with {
+            'color': 'success',
+            'icone': 'fas fa-check',
+            'text': 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus officiis tempora totam tenetur veritatis eos?'
+        } %}
+		{% include "shared/_assurance.html.twig" with {
+            'color': 'warning',
+            'icone': 'fas fa-lock',
+            'text': 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus officiis tempora totam tenetur veritatis eos?'
+        } %}
+	</div>
+{% endblock %}
