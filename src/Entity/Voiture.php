@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VoitureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VoitureRepository::class)
@@ -19,6 +20,7 @@ class Voiture
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le modèle du véhicule est obligatoire")
      */
     private $model;
 
@@ -54,11 +56,14 @@ class Voiture
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Le prix de la location du véhicule est obligatoire")
      */
     private $prix;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="La photo du véhicule est obligatoire")
+     * @Assert\Url(message="La photo principale doit être une URL valide")
      */
     private $image;
 

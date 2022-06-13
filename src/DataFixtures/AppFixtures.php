@@ -2,20 +2,24 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
+use App\Entity\Client;
 use App\Entity\Parking;
 use App\Entity\Voiture;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
     protected $slugger;
+    protected $encoder;
 
-    public  function __construct(SluggerInterface $slugger)
+    public  function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder)
     {
         $this->slugger = $slugger;
+        $this->encoder = $encoder;
     }
 
     public function load(ObjectManager $manager): void
@@ -24,6 +28,39 @@ class AppFixtures extends Fixture
         $faker->addProvider(new \Faker\Provider\Fakecar($faker));
         $faker->addProvider(new \Liior\Faker\Prices($faker));
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker));
+
+        $admin = new Client();
+
+        $hash = $this->encoder->encodePassword($admin, "password");
+
+        $admin->setEmail("admin@test.com")
+            ->setPrenom($faker->firstName)
+            ->setNom($faker->lastName)
+            ->setAdresse($faker->streetAddress)
+            ->setVille($faker->city)
+            ->setCodePostal($faker->postcode)
+            ->setTelephone($faker->phoneNumber)
+            ->setPassword($hash)
+            ->setRoles(['ROLE_ADMIN']);
+
+        $manager->persist($admin);
+
+        for ($u = 0; $u < 50; $u++) {
+            $user = new Client();
+
+            $hash = $this->encoder->encodePassword($user, "password");
+
+            $user->setEmail("user$u@test.com")
+                ->setPrenom($faker->firstName)
+                ->setNom($faker->lastname)
+                ->setAdresse($faker->streetAddress)
+                ->setVille($faker->city)
+                ->setCodePostal($faker->postCode)
+                ->setTelephone($faker->phoneNumber)
+                ->setPassword($hash);
+
+            $manager->persist($user);
+        }
 
         for ($p = 0; $p < 20; $p++) {
             $parking = new Parking;
