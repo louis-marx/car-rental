@@ -9,6 +9,13 @@
 		{% endif %}
 		<p class="card-text"></p>
 		<a class="btn btn-outline-primary" href="{{ path('voiture_show', {'slug': v.slug }) }}">Détails</a>
-		<a class="btn btn-outline-success" href="#">Réserver</a>
+		{% if app.user %}
+			<a class="btn btn-outline-success" href="{{ path('reservation', {'id': v.id }) }}">Réserver</a>
+			{% if app.user.roles[0] == "ROLE_ADMIN" %}
+				<a class="btn btn-outline-success" href="{{ path('voiture_modifier', {'id': v.id }) }}">Modifier</a>
+			{% endif %}
+		{% else %}
+			<a class="btn btn-outline-success" href="{{ path('reservation', {'id': v.id }) }}">Réserver</a>
+		{% endif %}
 	</div>
 </div>

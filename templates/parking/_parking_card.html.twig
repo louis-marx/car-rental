@@ -3,6 +3,11 @@
 	<div class="card-body">
 		<h4 class="card-title">{{ p.ville }}</h4>
 		<p class="card-text"></p>
-		<a class="btn btn-outline-success" href="{{ path('parking_show', {'slug': p.slug }) }}">Voir les véhicules disponibles</a>
+		<a class="btn btn-outline-primary" href="{{ path('parking_show', {'slug': p.slug }) }}">Voir les véhicules disponibles</a>
+		{% if app.user %}
+			{% if app.user.roles[0] == "ROLE_ADMIN" %}
+				<a class="btn btn-outline-success" href="{{ path('parking_modifier', {'id': p.id }) }}">Modifier</a>
+			{% endif %}
+		{% endif %}
 	</div>
 </div>

@@ -4,6 +4,8 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Client;
+use App\Entity\Contrat;
+use App\Entity\Facture;
 use App\Entity\Parking;
 use App\Entity\Voiture;
 use Doctrine\Persistence\ObjectManager;
@@ -45,7 +47,9 @@ class AppFixtures extends Fixture
 
         $manager->persist($admin);
 
-        for ($u = 0; $u < 50; $u++) {
+        $users = [];
+
+        for ($u = 0; $u < 25; $u++) {
             $user = new Client();
 
             $hash = $this->encoder->encodePassword($user, "password");
@@ -59,10 +63,14 @@ class AppFixtures extends Fixture
                 ->setTelephone($faker->phoneNumber)
                 ->setPassword($hash);
 
+            $users[] = $user;
+
             $manager->persist($user);
         }
 
-        for ($p = 0; $p < 20; $p++) {
+        $voitures = [];
+
+        for ($p = 0; $p < 15; $p++) {
             $parking = new Parking;
             $parking->setAdresse($faker->streetAddress)
                 ->setCodePostal($faker->postcode)
@@ -85,8 +93,32 @@ class AppFixtures extends Fixture
                     ->setSlug(strtolower($this->slugger->slug($voiture->getModel())))
                     ->setParking($parking);
 
+                $voitures[] = $voiture;
+
                 $manager->persist($voiture);
             }
+        }
+
+        for ($p = 0; $p < 100; $p++) {
+            $contrat = new Contrat;
+            $facture = new Facture;
+
+            $contrat->setDateDepart($faker->dateTime())
+                ->setDateRetour($faker->dateTimeInInterval($contrat->getDateDepart(), '+15  days'))
+                ->setClient($faker->randomElement($users))
+                ->setFacture($facture)
+                ->setVoiture($faker->randomElement($voitures));
+
+            $facture->setDateFacturation($contrat->getDateRetour())
+                ->setContrat($contrat)
+                ->setMontant(($contrat->getDateDepart()->diff($contrat->getDateRetour()))->days * $contrat->getVoiture()->getPrix());
+
+            if ($faker->boolean(90)) {
+                $facture->setStatut(Facture::STATUT_PAID);
+            }
+
+            $manager->persist($facture);
+            $manager->persist($contrat);
         }
 
         $manager->flush();

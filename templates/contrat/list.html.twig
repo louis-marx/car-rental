@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Mes réservations
+{% endblock %}
+
+{% block body %}
+	<h1>Mes réservations</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Numéro</th>
+				<th>Voiture</th>
+				<th>Date de départ</th>
+				<th>Date de retour</th>
+				<th>Facture</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for r in reservations %}
+				<tr>
+					<td>{{ r.id }}</td>
+					<td>{{ r.voiture.model }}</td>
+					<td>{{ r.dateDepart | date('d/m/Y')}}</td>
+					<td>{{ r.dateRetour | date('d/m/Y')}}</td>
+					<td>
+						{{ r.facture.montant / 100 }}
+						€
+						{% if r.facture.statut == "PAID" %}
+							<span class="badge rounded-pill bg-success">Payé</span>
+						{% else %}
+							<span class="badge rounded-pill bg-warning">À payer</span>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

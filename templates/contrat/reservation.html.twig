@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Je réserve mon véhicule
+{% endblock %}
+
+{% block body %}
+	<h1>Ma réservation</h1>
+
+	<div class="d-flex justify-content-between align-items-center">
+		<img src="{{ voiture.image }}" alt="Image du véhicule" class="img-fluid">
+		<ul class="list-group w-50">
+			<li class="list-group-item d-flex justify-content-between align-items-center bg-secondary">
+				Modèle :
+				<span class="badge bg-light">{{voiture.model}}</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Sièges :
+				<span class="badge bg-primary">{{voiture.capaciteHabitacle}}
+					passagers</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Carburant :
+				<span class="badge bg-warning">{{voiture.carburant}}</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Boite de vitesse :
+				<span class="badge bg-info">{{voiture.boitier}}</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-center">
+				Immatriculation :
+				<span class="badge bg-success">{{voiture.immatriculation}}</span>
+			</li>
+		</ul>
+	</div>
+	<hr>
+	<div>Mon véhicule est disponible au parking de
+		<span class="badge rounded-pill bg-primary">{{ voiture.parking.ville }}</span>
+		pour
+		<span class="badge rounded-pill bg-warning">{{ voiture.prix / 100}}
+			€ / jours</span>
+	</div>
+	<hr>
+	{{ form_start(formView) }}
+
+	{{ form_errors(formView) }}
+
+	<div class="row">
+		<div class="col">
+			{{ form_row(formView.dateDepart) }}
+		</div>
+		<div class="col">
+			{{ form_row(formView.dateRetour) }}
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-outline-primary mt-4">
+		<i class="fas fa-save"></i>
+		Je réserve mon véhicule
+	</button>
+
+	{{ form_end(formView) }}
+{% endblock %}

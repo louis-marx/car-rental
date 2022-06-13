@@ -45,7 +45,21 @@
 				<span class="badge rounded-pill bg-warning">{{ voiture.prix / 100}}
 					€ / jours</span>
 			</div>
-			<button type="button" class="btn btn-outline-success">Réservez ce véhicule</button>
+			{% if app.user %}
+				{% if app.user.roles[0] == "ROLE_ADMIN" %}
+					<a href="{{ path('voiture_modifier', {'id': voiture.id }) }}">
+						<button type="button" class="btn btn-outline-success">Modifier</button>
+					</a>
+				{% else %}
+					<a href="{{ path('reservation', {'id': voiture.id }) }}">
+						<button type="button" class="btn btn-outline-success">Réservez ce véhicule</button>
+					</a>
+				{% endif %}
+			{% else %}
+				<a href="{{ path('reservation', {'id': voiture.id }) }}">
+					<button type="button" class="btn btn-outline-success">Réservez ce véhicule</button>
+				</a>
+			{% endif %}
 		</div>
 
 	{% endblock %}
