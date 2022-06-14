@@ -34,11 +34,9 @@
 				<span class="badge bg-success rounded-pill">{{parking.voitures|length}}</span>
 			</li>
 			{% if app.user %}
-
 				{% if app.user.roles[0] == "ROLE_ADMIN" %}
 					<a class="btn btn-outline-success mt-3" href="{{ path('parking_modifier', {'id': parking.id }) }}">Modifier</a>
 				{% endif %}
-
 			{% endif %}
 		</ul>
 	</div>

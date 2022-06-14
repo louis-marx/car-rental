@@ -34,12 +34,12 @@ class ContratController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $facture->setContrat($contrat)
-                ->setDateFacturation($contrat->getDateRetour())
-                ->setMontant(($contrat->getDateDepart()->diff($contrat->getDateRetour()))->days * $contrat->getVoiture()->getPrix());
             $contrat->setVoiture($voiture)
                 ->setClient($client)
                 ->setFacture($facture);
+            $facture->setContrat($contrat)
+                ->setDateFacturation($contrat->getDateRetour())
+                ->setMontant(($contrat->getDateDepart()->diff($contrat->getDateRetour()))->days * $contrat->getVoiture()->getPrix());
             $em->persist($contrat);
             $em->flush();
 
